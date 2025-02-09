@@ -2,25 +2,20 @@ name: Daily Commit
 
 on:
   schedule:
-    - cron: "0 3 * * *" # Runs daily at 03:00 UTC
-  workflow_dispatch: # Allows manual triggering
+    - cron: '0 12 * * *'  # This will run daily at 12:00 PM UTC
 
 jobs:
-  update-repo:
+  commit_job:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Update status (21f3001166@ds.study.iitm.ac.in)
-        run: |
-          echo "Last updated on $(date)" > last_update.txt
-
-      - name: Commit changes
-        run: |
-          git config --global user.name "GitHub Actions Bot"
-          git config --global user.email "21f3001166@ds.study.iitm.ac.in"
-          git add last_update.txt
-          git commit -m "Automated daily commit - $(date)"
-          git push
+    - name: Make a commit
+      run: |
+        echo "Daily commit by 21f3001166@ds.study.iitm.ac.in" >> daily-commit.txt
+        git config --global user.email "21f3001166@ds.study.iitm.ac.in"
+        git config --global user.name "GitHub Actions"
+        git add daily-commit.txt
+        git commit -m "Daily commit by 21f3001166@ds.study.iitm.ac.in"
+        git push
